@@ -5,7 +5,7 @@ import useAuth from "../Hooks/useAuth";
 
 const Dashboard = () => {
 
-    const { user } = useAuth()
+    const { user } = useAuth();
 
     return (
         <div className="flex">
@@ -16,6 +16,8 @@ const Dashboard = () => {
                     <li> <FaHouse></FaHouse> <NavLink to='/dashboard/dashHome'><FaHouse></FaHouse> Home</NavLink></li>
 
                     <li> <FaHouse></FaHouse> <NavLink to='/dashboard/createAssignment'><FaBook></FaBook> Create Assignment</NavLink></li>
+
+                    <li> <FaHouse></FaHouse> <NavLink to='/dashboard/myAddedAssignment'><FaBook></FaBook> My Added Assignment</NavLink></li>
 
 
                 </ul>
