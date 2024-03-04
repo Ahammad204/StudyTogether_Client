@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 
 
@@ -30,7 +30,7 @@ const Navbar = () => {
             <li><Link to="/" style={isActive("/") ? { color: "#5094d4", borderBottom: "2px solid #3b63db" } : {}}>Home</Link></li>
             <li><Link to="/menu" style={isActive("/menu") ? { color: "#5094d4", borderBottom: "2px solid #3b63db" } : {}}>Assignment</Link></li>
 
-        
+
 
 
             {
@@ -59,7 +59,7 @@ const Navbar = () => {
                             {navoptions}
                         </ul>
                     </div>
-                   <Link to='/'> <a className="btn btn-ghost text-xl">Study Together</a></Link>
+                    <Link to='/'> <a className="btn btn-ghost text-xl">Study Together</a></Link>
                 </div>
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal gap-5">
@@ -76,11 +76,12 @@ const Navbar = () => {
 
                                 </div>
                             </label>
-                            <ul tabIndex={0} className="menu menu-sm  dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                            <ul tabIndex={0} className="menu menu-sm text-center  dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
                                 <li className="text-center">
-                                    <button className="text-black">{user.displayName}</button>
+                                    <button className="text-black text-center">{user.displayName}</button>
 
                                 </li>
+                                <li className="btn btn-sm btn-ghost text-lg font-semibold text-center text-black"><NavLink to="/dashboard">Dashboard</NavLink></li>
                                 <li>
                                     <button className="btn btn-sm  btn-ghost text-black"
                                         onClick={handleLogOut}
