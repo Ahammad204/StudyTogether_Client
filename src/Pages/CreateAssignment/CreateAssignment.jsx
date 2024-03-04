@@ -15,7 +15,7 @@ const CreateAssignment = () => {
 
     const axiosPublic = useAxiosPublic();
     const { user } = useAuth()
-    const email = user.email
+    const email = user?.email
     const currentDate = new Date();
     const date = currentDate.toISOString();
     const [selectedDate, setSelectedDate] = useState(null);
@@ -34,19 +34,18 @@ const CreateAssignment = () => {
     const formik = useFormik({
         initialValues: {
             assignmentTitle: '',
-            maxDonationAmount: '',
+            assignmentNumber: '',
             shortDescription: '',
             longDescription: '',
-            donationImage: null,
-            addedDate: new Date(),
+            assignmentImage: null,
+            assignmentLastDate: new Date(),
         },
         validationSchema: Yup.object({
-            assignmentTitle: Yup.string().required('Pet name is required'),
-            maxDonationAmount: Yup.number().positive('Amount must be a positive number').required('This Field is required'),
-            shortDescription: Yup.string().required('Short Description is required'),
+            assignmentTitle: Yup.string().required('Assignment Title is required'),
+            assignmentNumber: Yup.number().positive('Assignment number must be a positive number').required('This Field is required'),
             longDescription: Yup.string().required('Long Description is required'),
-            donationImage: Yup.mixed().required('Donation image is required'),
-            addedDate: Yup.date().required('Date is required'),
+            assignmentImage: Yup.mixed().required('Donation image is required'),
+            assignmentLastDate: Yup.date().required('Date is required'),
         }),
 
         onSubmit: async (values) => {
@@ -59,7 +58,7 @@ const CreateAssignment = () => {
             // image upload to imgbb and then get an url
 
             console.log(values)
-            const imageFile = { image: values.donationImage }
+            const imageFile = { image: values.assignmentImage }
             const res = await axiosPublic.post(image_hosting_api, imageFile, {
                 headers: {
                     'content-type': 'multipart/form-data'
@@ -67,35 +66,33 @@ const CreateAssignment = () => {
             });
             if (res.data.success) {
                 // now send the menu item data to the server with the image url
-                const donationItem = {
+                const assignmentItem = {
                     assignmentTitle: values.assignmentTitle,
-                    maxDonationAmount: parseFloat(values.maxDonationAmount),
-                    shortDescription: values.shortDescription,
+                    assignmentNumber: parseFloat(values.assignmentNumber),
                     longDescription: values.longDescription,
-                    donationCreateDate: date,
-                    donationLastDate: selectedDate,
+                    assignmentCreateDate: date,
+                    assignmentLastDate: selectedDate,
                     ownerEmail: email,
-                    status: "active",
-                    image: res.data.data.display_url,
+                    assignmentImage: res.data.data.display_url,
                     donatedParcentage: parseFloat(0),
                     donatedAmount: parseFloat(0)
                 };
 
-                const donationRes = await axiosPublic.post('/assignment', donationItem);
-                console.log(donationRes.data)
+                const assignmentRes = await axiosPublic.post('/assignment', assignmentItem);
+                console.log(assignmentRes.data)
 
-                const donated = {
+                const assignmented = {
 
                     assignmentTitle: values.assignmentTitle,
-                    maxDonationAmount: parseFloat(values.maxDonationAmount),
-                    donatedAmount: parseFloat(0),
+                    assignmentNumber: parseFloat(values.assignmentNumber),
+                    assignmentedNumber: parseFloat(0),
 
                 }
 
-                const donatedRes = await axiosPublic.post('/donated', donated);
-                console.log(donatedRes)
+                const assignmentedRes = await axiosPublic.post('/assignment', assignmented);
+                console.log(assignmentedRes)
 
-                if (donationRes.data.insertedId) {
+                if (assignmentRes.data.insertedId) {
                     // show success popup
 
                     Swal.fire({
@@ -132,58 +129,41 @@ const CreateAssignment = () => {
                         <div>{formik.errors.assignmentTitle}</div>
                     ) : null}
                 </div>
-                {/* Donation Maximum Input */}
+                {/*  Assignment Number Input */}
                 <div className="form-control w-full my-6">
-                    <label className='label' htmlFor="maxDonationAmount"><span className="label-text">Maximum Donation Amount*</span></label>
+                    <label className='label' htmlFor="assignmentNumber"><span className="label-text">assignmentNumber*</span></label>
                     <input
                         type="number"
-                        placeholder="Enter Maximum Donation Amount"
-                        id="maxDonationAmount"
-                        name="maxDonationAmount"
+                        placeholder="Enter Assignment Number"
+                        id="assignmentNumber"
+                        name="assignmentNumber"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        value={formik.values.maxDonationAmount}
+                        value={formik.values.assignmentNumber}
                         className="input input-bordered w-full"
                     />
-                    {formik.touched.maxDonationAmount && formik.errors.maxDonationAmount ? (
-                        <div>{formik.errors.maxDonationAmount}</div>
+                    {formik.touched.assignmentNumber && formik.errors.assignmentNumber ? (
+                        <div>{formik.errors.assignmentNumber}</div>
                     ) : null}
                 </div>
 
                 {/* Last Date */}
                 <div className="form-control w-full my-6">
-                    <label className='label' htmlFor="addedDate"><span className="label-text">Last Date Of Donation*</span></label>
+                    <label className='label' htmlFor="assignmentLastDate"><span className="label-text">Last Date Of Assignment*</span></label>
                     <DatePicker
-                        id="addedDate"
-                        name="addedDate"
-                        selected={formik.values.addedDate}
+                        id="assignmentLastDate"
+                        name="assignmentLastDate"
+                        selected={formik.values.assignmentLastDate}
                         onChange={handleDateChange}
                         className="input input-bordered w-full"
                     />
 
-                    {formik.touched.addedDate && formik.errors.addedDate ? (
-                        <div>{formik.errors.addedDate}</div>
+                    {formik.touched.assignmentLastDate && formik.errors.assignmentLastDate ? (
+                        <div>{formik.errors.assignmentLastDate}</div>
                     ) : null}
                 </div>
 
 
-                {/* short Description Input */}
-                <div className="form-control w-full my-6">
-                    <label className='label' htmlFor="shortDescription"><span className="label-text">Short Description*</span></label>
-                    <textarea
-                        type="text"
-                        placeholder="Short Description"
-                        id="shortDescription"
-                        name="shortDescription"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.shortDescription}
-                        className="input textarea input-bordered w-full"
-                    />
-                    {formik.touched.shortDescription && formik.errors.shortDescription ? (
-                        <div>{formik.errors.shortDescription}</div>
-                    ) : null}
-                </div>
                 {/* Long Description Input */}
                 <div className="form-control w-full my-6">
                     <label className='label' htmlFor="longDescription"><span className="label-text">Long Description*</span></label>
@@ -203,17 +183,17 @@ const CreateAssignment = () => {
 
                 {/* Image Upload Input */}
                 <div className="form-control w-full my-6">
-                    <label className='label' htmlFor="donationImage"><span className="label-text">Donation Image*</span></label>
+                    <label className='label' htmlFor="assignmentImage"><span className="label-text">Assignment Image*</span></label>
                     <input
                         type="file"
-                        id="donationImage"
-                        name="donationImage"
-                        onChange={(event) => formik.setFieldValue('donationImage', event.currentTarget.files[0])}
+                        id="assignmentImage"
+                        name="assignmentImage"
+                        onChange={(event) => formik.setFieldValue('assignmentImage', event.currentTarget.files[0])}
                         onBlur={formik.handleBlur}
                         className=" w-full file-input max-w-xs"
                     />
-                    {formik.touched.donationImage && formik.errors.donationImage ? (
-                        <div>{formik.errors.donationImage}</div>
+                    {formik.touched.assignmentImage && formik.errors.assignmentImage ? (
+                        <div>{formik.errors.assignmentImage}</div>
                     ) : null}
                 </div>
 

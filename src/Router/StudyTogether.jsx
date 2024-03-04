@@ -6,6 +6,7 @@ import SignUp from "../Pages/SignUp/SignUp";
 import Error from "../Pages/ErrorPage/ErrorPage";
 import Dashboard from "../Layout/Dashboard";
 import DashHome from "../Pages/Dashboard/Dashboard/Home/DashHome";
+import CreateAssignment from "../Pages/CreateAssignment/CreateAssignment";
 
 
 export const router = createBrowserRouter([
@@ -38,6 +39,11 @@ export const router = createBrowserRouter([
             {
                 path:'dashHome',
                 element:<DashHome></DashHome>
+            },{
+
+                path:'/dashboard/createAssignment',
+                element:<CreateAssignment></CreateAssignment>
+
             }
         ]
 
