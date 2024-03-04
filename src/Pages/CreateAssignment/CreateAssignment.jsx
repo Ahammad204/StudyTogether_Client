@@ -6,6 +6,8 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { useState } from "react";
 import useAuth from "../../Hooks/useAuth";
+import ReactSelect from "react-select";
+
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
@@ -19,6 +21,7 @@ const CreateAssignment = () => {
     const currentDate = new Date();
     const date = currentDate.toISOString();
     const [selectedDate, setSelectedDate] = useState(null);
+    const [selectedDifficulty, setSelectedDifficulty] = useState(null);
     // console.log(date)
     // Formik initialization
     // console.log(selectedDate)
@@ -28,14 +31,14 @@ const CreateAssignment = () => {
     const handleDateChange = (date) => {
         console.log('Selected Date:', date);
         setSelectedDate(date);
-        formik.setFieldValue('addedDate', date);
+        formik.setFieldValue('assignmentLastDate', date);
     };
 
     const formik = useFormik({
         initialValues: {
             assignmentTitle: '',
             assignmentNumber: '',
-            shortDescription: '',
+            difficulty: '',
             longDescription: '',
             assignmentImage: null,
             assignmentLastDate: new Date(),
@@ -43,6 +46,7 @@ const CreateAssignment = () => {
         validationSchema: Yup.object({
             assignmentTitle: Yup.string().required('Assignment Title is required'),
             assignmentNumber: Yup.number().positive('Assignment number must be a positive number').required('This Field is required'),
+            difficulty: Yup.string().required('difficulty is required').matches(/^(easy|medium|hard)$/, 'Invalid difficulty'),
             longDescription: Yup.string().required('Long Description is required'),
             assignmentImage: Yup.mixed().required('Donation image is required'),
             assignmentLastDate: Yup.date().required('Date is required'),
@@ -68,29 +72,20 @@ const CreateAssignment = () => {
                 // now send the menu item data to the server with the image url
                 const assignmentItem = {
                     assignmentTitle: values.assignmentTitle,
+                    difficulty: values.difficulty,
                     assignmentNumber: parseFloat(values.assignmentNumber),
                     longDescription: values.longDescription,
                     assignmentCreateDate: date,
                     assignmentLastDate: selectedDate,
                     ownerEmail: email,
                     assignmentImage: res.data.data.display_url,
-                    donatedParcentage: parseFloat(0),
-                    donatedAmount: parseFloat(0)
+
                 };
 
                 const assignmentRes = await axiosPublic.post('/assignment', assignmentItem);
                 console.log(assignmentRes.data)
 
-                const assignmented = {
 
-                    assignmentTitle: values.assignmentTitle,
-                    assignmentNumber: parseFloat(values.assignmentNumber),
-                    assignmentedNumber: parseFloat(0),
-
-                }
-
-                const assignmentedRes = await axiosPublic.post('/assignment', assignmented);
-                console.log(assignmentedRes)
 
                 if (assignmentRes.data.insertedId) {
                     // show success popup
@@ -108,9 +103,15 @@ const CreateAssignment = () => {
         },
     });
 
+    const handledifficultyChange = (selectedOption) => {
+        // `selectedOption` is an object with `value` and `label` properties
+        setSelectedDifficulty(selectedOption);
+        formik.setFieldValue('difficulty', selectedOption.value)
+    };
+
     return (
         <div>
-            
+
             <form onSubmit={formik.handleSubmit}>
                 {/* Assignment Name Input */}
                 <div className="form-control w-full my-6">
@@ -146,7 +147,32 @@ const CreateAssignment = () => {
                         <div>{formik.errors.assignmentNumber}</div>
                     ) : null}
                 </div>
+                {/* difficulty Input (React Select) */}
+                <div className="form-control w-full my-6">
+                    <label className='label' htmlFor="difficulty"><span className="label-text">difficulty*</span></label>
+                    <ReactSelect
+                        id="difficulty"
+                        name="difficulty"
+                        options={[
+                            { value: 'easy', label: 'Easy' },
+                            { value: 'medium', label: 'Medium' },
+                            { value: 'hard', label: 'Hard' },
 
+                        ]}
+                        // onChange={(selectedOption) => {
+                        //     formik.setFieldValue('category', selectedOption.value);
+
+                        // }}
+                        onChange={handledifficultyChange}
+
+                        onBlur={formik.handleBlur}
+                        value={selectedDifficulty}
+                        className="react-select"
+                    />
+                    {formik.touched.difficulty && formik.errors.difficulty ? (
+                        <div>{formik.errors.difficulty}</div>
+                    ) : null}
+                </div>
                 {/* Last Date */}
                 <div className="form-control w-full my-6">
                     <label className='label' htmlFor="assignmentLastDate"><span className="label-text">Last Date Of Assignment*</span></label>
