@@ -1,46 +1,69 @@
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { Carousel } from 'react-responsive-carousel';
 
-import { Link } from "react-router-dom";
+import img1 from '../../../src//assets/Banner/1.jpeg'
+import img2 from '../../../src/assets/Banner/2.jpg'
+import img3 from '../../../src/assets/Banner/3.jpg'
+
 
 const Banner = () => {
-  return (
-    <div>
-      <div className="">
-        <div
-          className="hero bg-cover"
-          style={{
-            backgroundImage:
-              "url(https://i.ibb.co/zS1Qtts/pexels-rdne-stock-project-7915254.jpg)",
-          }}
-        >
-          <div className="hero-overlay bg-opacity-70"></div>
-          <div className="hero-content text-center text-neutral-content">
-            <div className="">
-              <p className="mb-5 text-4xl md:text-9xl font-extrabold font-teko text-white">
-                PH Arena Event
+    return (
+        <Carousel className="text-center">
+            <div className="text-center">
+           
+
+              <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+             <div className="text-center">
+             <p className="mb-5 absolute mt-20  text-4xl md:text-9xl font-extrabold font-teko text-white ">
+                Meet, Study Together..
               </p>
-              <div className="">
-                <p className="text-3xl md:text-6xl font-teko font-semibold text-white">
-                  Join the big Event Today
-                </p>
-                <p className="text-2xl md:text-5xl font-teko text-white">
-                  Next Tournament Remaining
-                </p>
-                
-                <Link
-                  to="/about"
-                  className="block md:inline-block mt-4"
-                >
-                  <button className="btn text-white border-none bg-gradient-to-r from-[#1C1F38] to-[#42D0D9]">
-                    Join Now
-                  </button>
-                </Link>
-              </div>
+             <p className="mb-5 absolute ml-48 mt-96  text-4xl md:text-4xl font-extrabold font-teko text-white ">
+             Join the largest global student community online <br /> and say goodbye to lack of motivation.
+              </p>
+             </div>
+            
+                <img className="bg-black" src={img1} />
+
+
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+            <div className="text-center">
+           
+
+              <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+             <div className="text-center">
+             <p className="mb-5 absolute mt-20  text-4xl md:text-9xl font-extrabold font-teko text-white ">
+                Meet, Study Together..
+              </p>
+             <p className="mb-5 absolute ml-48 mt-96  text-4xl md:text-4xl font-extrabold font-teko text-white ">
+             Join the largest global student community online <br /> and say goodbye to lack of motivation.
+              </p>
+             </div>
+            
+                <img className="bg-black" src={img2} />
+
+
+            </div>
+            <div className="text-center">
+           
+
+              <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+             <div className="text-center">
+             <p className="mb-5 absolute mt-20  text-4xl md:text-9xl font-extrabold font-teko text-white ">
+                Meet, Study Together..
+              </p>
+             <p className="mb-5 absolute ml-48 mt-96  text-4xl md:text-4xl font-extrabold font-teko text-white ">
+             Join the largest global student community online <br /> and say goodbye to lack of motivation.
+              </p>
+             </div>
+            
+                <img className="bg-black" src={img3} />
+
+
+            </div>
+        
+         
+        </Carousel>
+    );
 };
 
 export default Banner;
