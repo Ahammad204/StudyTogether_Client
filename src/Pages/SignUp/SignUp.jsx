@@ -6,6 +6,7 @@ import { useContext } from 'react';
 
 import Swal from 'sweetalert2';
 import { AuthContext } from '../../Provider/AuthProvider';
+import SocialLogin from '../../Components/SocialLogin/SocialLogin';
 
 
 
@@ -126,6 +127,7 @@ const SignUp = () => {
                                 <input className="btn text-white bg-blue-400 hover:bg-blue-600" type="submit" value="Sign Up" />
 
                             </div>
+                            <SocialLogin></SocialLogin>
                         </form>
                         <p className='text-center text-xl mb-5'><small>Already Have an account? <Link className='text-blue-400' to="/login">Login</Link></small></p>
                     </div>

@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Swal from 'sweetalert2';
 import { AuthContext } from '../../Provider/AuthProvider';
+import SocialLogin from '../../Components/SocialLogin/SocialLogin';
 
 const Login = () => {
 
@@ -93,6 +94,7 @@ const Login = () => {
 
                                 <input  type="submit" value="Login" className="btn text-white bg-blue-400 hover:bg-blue-600" />
                             </div>
+                            <SocialLogin></SocialLogin>
                         </form>
                         <p className='text-center text-xl mb-5'><small>New Here? <Link className='text-blue-400' to="/signup">Create An Account</Link></small></p>
                     </div>
