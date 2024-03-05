@@ -60,9 +60,8 @@ const MyAddedAssignment = () => {
                         <tr>
                             <th className="px-4 py-2"></th>
                             <th className="px-4 py-2">Image</th>
-                            <th className="px-4 py-2">Name</th>
-                            <th className="px-4 py-2">Category</th>
-                            <th className="px-4 py-2">Adoption Status</th>
+                            <th className="px-4 py-2">Title</th>
+                            <th className="px-4 py-2">Difficulty</th>
                             <th className="px-4 py-2">Update</th>
                             <th className="px-4 py-2">Delete</th>
                             {/* <th className="px-4 py-2">Adopted</th> */}
@@ -81,24 +80,22 @@ const MyAddedAssignment = () => {
                                         </div>
                                     </div>
                                 </td>
-                                <td className="border px-4 py-2">{assignment.assignmentTitle}</td>
-                                <td className="border px-4 py-2">{assignment.difficulty}</td>
-                                <td className="border px-4 py-2">
-                                    {assignment.adopted === false ? "Not Adopted" : "Adopted"}
-                                </td>
-                                <td className="border px-4 py-2">
-                                    <Link to={`/dashboard/updateItem/${assignment._id}`}>
+                                <td className="border text-center px-4 py-2">{assignment?.assignmentTitle}</td>
+                                <td className="border text-center uppercase px-4 py-2">{assignment?.difficulty}</td>
+                                
+                                <td className="border text-center px-4 py-2">
+                                    <Link to={`/dashboard/updateItem/${assignment?._id}`}>
                                         <button className="btn btn-ghost btn-lg ">
-                                            <FaEdit className="text-red-600"></FaEdit>
+                                            <FaEdit className="text-blue-400"></FaEdit>
                                         </button>
                                     </Link>
                                 </td>
-                                <td className="border px-4 py-2">
+                                <td className="border text-center px-4 py-2">
                                     <button
                                         onClick={() => handleDelete(assignment?._id)}
                                         className="btn btn-ghost btn-lg"
                                     >
-                                        <FaTrashAlt className="text-red-600"></FaTrashAlt>
+                                        <FaTrashAlt className="text-blue-400"></FaTrashAlt>
                                     </button>
                                 </td>
                             

@@ -11,6 +11,7 @@ import MyAddedAssignment from "../Pages/myAddedAssignment/myAddedAssignment";
 import PrivateRoute from "./PrivateRouter";
 import UpdateAssignment from "../Pages/UpdatedAssignment/UpdatedAssignment";
 import AllAssignment from "../Pages/AllAssignmentPage/AllAssignment";
+import DetailsPage from "../Pages/DetailsPage/DetailsPage";
 
 
 export const router = createBrowserRouter([
@@ -36,6 +37,11 @@ export const router = createBrowserRouter([
 
                 path:'allAssignment',
                 element:<AllAssignment></AllAssignment>
+
+            },{
+
+                path:'/details/:id',
+                element:<PrivateRoute><DetailsPage></DetailsPage></PrivateRoute>
 
             }
         ]

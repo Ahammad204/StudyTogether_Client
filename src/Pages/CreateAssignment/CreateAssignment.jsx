@@ -192,9 +192,9 @@ const CreateAssignment = () => {
 
                 {/* Long Description Input */}
                 <div className="form-control w-full my-6">
-                    <label className='label' htmlFor="longDescription"><span className="label-text">Long Description*</span></label>
+                    <label className='label' htmlFor="longDescription"><span className="label-text">Details Link*</span></label>
                     <textarea
-                        placeholder="Long Description"
+                        placeholder="Details link"
                         id="longDescription"
                         name="longDescription"
                         onChange={formik.handleChange}
