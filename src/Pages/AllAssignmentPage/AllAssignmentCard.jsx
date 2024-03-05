@@ -19,11 +19,9 @@ const AllAssignmentCard = ({   assignmentItem }) => {
                 <h2 className="card-title font-extrabold text-3xl">{assignmentTitle}</h2>
                 <p className="text-base uppercase font-semibold mt-4">Difficulty: {difficulty} </p>
                 <p className="text-base font-semibold uppercase mt-4">Total Marks: {assignmentNumber} </p>
-                {/* <p className="text-lg font-semibold text-[#f04336]">Last Date: {assignmentLastDate}</p> */}
                
-
                 <div className="card-actions justify-end">
-                    <Link to={`/details/${_id}`}>  <button className="btn bg-[#f04336] hover:bg-[#f04336] text-white">Details</button></Link>
+                    <Link to={`/details/${_id}`}>  <button className="btn bg-blue-400 hover:bg-blue-400 text-white">Details</button></Link>
        
                 </div>
             </div>
