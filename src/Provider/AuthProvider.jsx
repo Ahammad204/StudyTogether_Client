@@ -2,6 +2,7 @@
 import { createContext, useEffect, useState } from "react";
 import { GithubAuthProvider, GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from 'firebase/auth'
 import { app } from "../Firebase/Firebase.config";
+import axios from "axios";
 
 
 export const AuthContext = createContext(null)
@@ -36,6 +37,7 @@ const AuthProvider = ({ children }) => {
     const logOut = () => {
 
         setLoading(true);
+        localStorage.removeItem('access-token');
         return signOut(auth)
 
     }
@@ -71,21 +73,47 @@ const AuthProvider = ({ children }) => {
 
     useEffect(() => {
 
-        const unsubscribe = onAuthStateChanged(auth, currentUser => {
+        onAuthStateChanged(auth, (user) => {
 
-            setUser(currentUser);
-            console.log(currentUser);
-            setLoading(false);
+            const userEmail = user?.email || user?.email;
+            const loggedUser = { email: userEmail }
 
-        })
+            setUser(user)
+            setLoading(false)
 
-        return () => {
+            //If user Exist then issue a token
+            if (user) {
 
-            return unsubscribe();
+                axios.post('http://localhost:5000/jwt', loggedUser, { withCredentials: true })
+                    .then(res => {
 
-        }
+                        if (res.data.token) {
+                            localStorage.setItem('access-token', res.data.token);
+                        } else {
+                            localStorage.removeItem('access-token');
+                        }
 
-    }, [])
+                    })
+
+            } else {
+
+                axios.post('http://localhost:5000/logout', loggedUser, { withCredentials: true })
+                    .then(res => {
+
+                        console.log(res.data)
+                        localStorage.removeItem('access-token');
+
+                    })
+
+            }
+
+
+        });
+
+
+    }, [user])
+
+    console.log(user)
 
     const authInfo = {
 

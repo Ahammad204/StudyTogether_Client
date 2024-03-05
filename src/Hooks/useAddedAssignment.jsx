@@ -8,15 +8,15 @@ import useAuth from "./useAuth";
 const useAddedAssignment = () => {
     const axiosSecure = useAxiosSecure();
     const { user} = useAuth();
-    const { refetch, data: assignment = [] } = useQuery({
-        queryKey: ['assignmentAl', user?.email],
+    const { refetch, data: assignmentAl = [] } = useQuery({
+        queryKey: ['assignment', user?.email],
         queryFn: async() => {
-            const res = await axiosSecure.get(`/assignmentAl?email=${user.email}`);
+            const res = await axiosSecure.get(`/assignmentAl?email=${user?.email}`);
             return res.data;
         }
     })
 
-    return [assignment, refetch]
+    return [assignmentAl, refetch]
 };
 
 export default useAddedAssignment;

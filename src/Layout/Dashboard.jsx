@@ -25,7 +25,7 @@ const Dashboard = () => {
             </div>
              {/* dashboard content */}
              <div className="flex-1 p-8">
-                <p className="text-4xl uppercase border-y-4 py-4 text-center"> Welcome {user.displayName}</p>
+                <p className="text-4xl uppercase border-y-4 py-4 text-center"> Welcome {user?.displayName}</p>
                 <Outlet></Outlet>
             </div>
         </div>
