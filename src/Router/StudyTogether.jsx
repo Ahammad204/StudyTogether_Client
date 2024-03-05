@@ -54,8 +54,9 @@ export const router = createBrowserRouter([
 
             },{
 
-                path:'/dashboard/UpdateItem',
-                element:<PrivateRoute><UpdateAssignment></UpdateAssignment></PrivateRoute>
+                path:'/dashboard/UpdateItem/:id',
+                element:<PrivateRoute><UpdateAssignment></UpdateAssignment></PrivateRoute>,
+                loader: ({ params }) => fetch(`http://localhost:5000/assignment/${params.id}`)
 
             }
         ]

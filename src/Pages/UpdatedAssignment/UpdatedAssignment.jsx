@@ -1,192 +1,179 @@
 // Import necessary libraries
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import Select from 'react-select';
 import Swal from 'sweetalert2';
 import { useLoaderData } from 'react-router-dom';
 import useAxiosPublic from '../../Hooks/useAxiosPublic';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import useAuth from '../../Hooks/useAuth';
+import { useState } from 'react';
+import ReactDatePicker from 'react-datepicker';
+import ReactSelect from 'react-select';
+
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_key}`;
 
 // Your component
 const UpdateAssignment = () => {
-    const { _id, petName, petAge, category, petLocation, shortDescription, longDescription } = useLoaderData();
+    // Destructuring data from hooks
+    const { _id, assignmentTitle, assignmentNumber, difficulty, longDescription, assignmentLastDate } = useLoaderData();
     const axiosPublic = useAxiosPublic();
     const axiosSecure = useAxiosSecure();
-    const { user } = useAuth()
-    const email = user.email
+    const { user } = useAuth();
+    const email = user?.email;
+
+    // State for selected date and difficulty
+    const [selectedDate, setSelectedDate] = useState(new Date(assignmentLastDate));
+    const [selectedDifficulty, setSelectedDifficulty] = useState(difficulty);
+
+    // Date change handler
+    const handleDateChange = (date) => {
+        setSelectedDate(date);
+    };
 
     // Formik initialization
     const formik = useFormik({
         initialValues: {
-            petName: petName,
-            petAge: petAge,
-            category: category,
-            petLocation: petLocation,
-            shortDescription: shortDescription,
+            assignmentTitle: assignmentTitle,
+            assignmentNumber: assignmentNumber,
+            difficulty: difficulty,
             longDescription: longDescription,
-            petImage: null,
+            assignmentImage: null,
+            assignmentLastDate: assignmentLastDate,
         },
         validationSchema: Yup.object({
-            petName: Yup.string().required('Pet name is required'),
-            petAge: Yup.number().positive('Age must be a positive number').required('Pet age is required'),
-            category: Yup.string().required('Category is required').matches(/^(cats|dogs|rabbit|fish|birds|horses)$/, 'Invalid category'),
-            petLocation: Yup.string().required('Pet Location is required'),
-            shortDescription: Yup.string().required('Short Description is required'),
+            assignmentTitle: Yup.string().required('Assignment Title is required'),
+            assignmentNumber: Yup.number().positive('Assignment Number must be a positive number').required('Assignment Number is required'),
+            difficulty: Yup.string().required('Difficulty is required').matches(/^(easy|medium|hard)$/, 'Invalid difficulty'),
             longDescription: Yup.string().required('Long Description is required'),
-            petImage: Yup.mixed().required('Pet image is required'),
+            assignmentImage: Yup.mixed().required('Assignment Image is required'),
+            assignmentLastDate: Yup.date().required('Date is required'),
         }),
 
         onSubmit: async (values) => {
+            try {
+                // Image upload
+                const imageFile = { image: values.assignmentImage }
+                const res = await axiosPublic.post(image_hosting_api, imageFile, {
+                    headers: {
+                        'content-type': 'multipart/form-data'
+                    }
+                });
 
-            console.log('Form data submitted:', values);
-            const currentDate = new Date();
-            const date = values.addedDate = currentDate.toISOString();
-            console.log(date)
-            console.log(values)
-            const imageFile = { image: values.petImage }
-            const res = await axiosPublic.post(image_hosting_api, imageFile, {
-                headers: {
-                    'content-type': 'multipart/form-data'
+                if (res.data.success) {
+                    // Prepare assignment data
+                    const currentDate = new Date();
+                    const assignmentItem = {
+                        assignmentTitle: values.assignmentTitle,
+                        difficulty: values.difficulty,
+                        assignmentNumber: parseFloat(values.assignmentNumber),
+                        assignmentLastDate: selectedDate,
+                        longDescription: values.longDescription,
+                        date: currentDate.toISOString(),
+                        email: email,
+                        assignmentImage: res.data.data.display_url,
+                    };
+
+                    // Update assignment
+                    const assignmentRes = await axiosSecure.patch(`/assignment/${_id}`, assignmentItem);
+                    if (assignmentRes.data.modifiedCount > 0) {
+                        // Show success message
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: `${values?.assignmentTitle} is updated to all assignments.`,
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    }
                 }
-            });
-            if (res.data.success) {
-
-                const petItem = {
-                    petName: values.petName,
-                    category: values.category,
-                    petAge: parseFloat(values.petAge),
-                    petLocation: values.petLocation,
-                    shortDescription: values.shortDescription,
-                    longDescription: values.longDescription,
-                    date: date,
-                    adopted: false,
-                    email: email,
-                    image: res.data.data.display_url,
-                };
-
-
-                const petRes = await axiosSecure.patch(`/pet/${_id}`, petItem);
-                console.log(petRes.data)
-                if (petRes.data.modifiedCount > 0) {
-
-
-                    Swal.fire({
-                        position: "top-end",
-                        icon: "success",
-                        title: `${values.petName} is Updated to the PetListing.`,
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                }
+            } catch (error) {
+                console.error('Error:', error);
             }
-            console.log('with image url', res.data);
         },
     });
 
+    // Difficulty change handler
+    const handledifficultyChange = (selectedOption) => {
+        setSelectedDifficulty(selectedOption.value);
+        formik.setFieldValue('difficulty', selectedOption.value);
+    };
+
     return (
         <div>
-           
             <form onSubmit={formik.handleSubmit}>
-                {/* Pet Name Input */}
+                {/* assignment Title Input */}
                 <div className="form-control w-full my-6">
-                    <label className='label' htmlFor="petName"><span className="label-text">Pet Name*</span></label>
+                    <label className='label' htmlFor="assignmentTitle"><span className="label-text">Assignment Title*</span></label>
                     <input
                         type="text"
-                        placeholder="Enter Pet Name"
-                        id="petName"
-                        name="petName"
+                        placeholder="Enter Assignment Title"
+                        id="assignmentTitle"
+                        name="assignmentTitle"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        value={formik.values.petName}
+                        value={formik.values.assignmentTitle}
                         className="input input-bordered w-full"
                     />
-                    {formik.touched.petName && formik.errors.petName ? (
-                        <div>{formik.errors.petName}</div>
-                    ) : null}
+                    {formik.touched.assignmentTitle && formik.errors.assignmentTitle && (
+                        <div>{formik.errors.assignmentTitle}</div>
+                    )}
                 </div>
 
-                {/* Pet Age Input */}
+                {/* assignment Number Input */}
                 <div className="form-control w-full my-6">
-                    <label className='label' htmlFor="petAge"><span className="label-text">Pet Age*</span></label>
+                    <label className='label' htmlFor="assignmentNumber"><span className="label-text">Assignment Number*</span></label>
                     <input
                         type="number"
-                        placeholder="Enter Pet Age"
-                        id="petAge"
-                        name="petAge"
+                        placeholder="Enter Assignment Number"
+                        id="assignmentNumber"
+                        name="assignmentNumber"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        value={formik.values.petAge}
+                        value={formik.values.assignmentNumber}
                         className="input input-bordered w-full"
                     />
-                    {formik.touched.petAge && formik.errors.petAge ? (
-                        <div>{formik.errors.petAge}</div>
-                    ) : null}
+                    {formik.touched.assignmentNumber && formik.errors.assignmentNumber && (
+                        <div>{formik.errors.assignmentNumber}</div>
+                    )}
                 </div>
-                {/* Category Input (React Select) */}
-                <div className="form-control w-full my-6">
-                    <label className='label' htmlFor="category"><span className="label-text">Category*</span></label>
-                    <Select
-                        id="category"
-                        name="category"
-                        options={[
-                            { value: 'cats', label: 'Cat' },
-                            { value: 'dogs', label: 'Dog' },
-                            { value: 'rabbit', label: 'Rabbit' },
-                            { value: 'fish', label: 'Fish' },
-                            { value: 'birds', label: 'Birds' },
-                            { value: 'horses', label: 'Horse' },
-                        ]}
-                        onChange={(selectedOption) => {
-                            formik.setFieldValue('category', selectedOption.value);
-                            // console.log('Selected Option:', selectedOption);
-                            // console.log('Formik Values:', formik.values);
-                        }}
 
+                {/* Difficulty Input (React Select) */}
+                <div className="form-control w-full my-6">
+                    <label className='label' htmlFor="difficulty"><span className="label-text">Difficulty*</span></label>
+                    <ReactSelect
+                        id="difficulty"
+                        name="difficulty"
+                        options={[
+                            { value: 'easy', label: 'Easy' },
+                            { value: 'medium', label: 'Medium' },
+                            { value: 'hard', label: 'Hard' },
+                        ]}
+                        onChange={handledifficultyChange}
                         onBlur={formik.handleBlur}
-                        value={formik.values.category}
+                        value={{ value: selectedDifficulty, label: selectedDifficulty }}
                         className="react-select"
                     />
-                    {formik.touched.category && formik.errors.category ? (
-                        <div>{formik.errors.category}</div>
-                    ) : null}
+                    {formik.touched.difficulty && formik.errors.difficulty && (
+                        <div>{formik.errors.difficulty}</div>
+                    )}
                 </div>
-                {/* Pet Name Input */}
+
+                {/* Last Date */}
                 <div className="form-control w-full my-6">
-                    <label className='label' htmlFor="petLocation"><span className="label-text">Pet Location*</span></label>
-                    <input
-                        type="text"
-                        placeholder="Enter Pet Location"
-                        id="petLocation"
-                        name="petLocation"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.petLocation}
+                    <label className='label' htmlFor="assignmentLastDate"><span className="label-text">Date*</span></label>
+                    <ReactDatePicker
+                        id="assignmentLastDate"
+                        name="assignmentLastDate"
+                        selected={selectedDate}
+                        onChange={handleDateChange}
                         className="input input-bordered w-full"
                     />
-                    {formik.touched.petLocation && formik.errors.petLocation ? (
-                        <div>{formik.errors.petLocation}</div>
-                    ) : null}
+                    {formik.touched.assignmentLastDate && formik.errors.assignmentLastDate && (
+                        <div>{formik.errors.assignmentLastDate}</div>
+                    )}
                 </div>
-                {/* Pet Name Input */}
-                <div className="form-control w-full my-6">
-                    <label className='label' htmlFor="shortDescription"><span className="label-text">Short Description*</span></label>
-                    <textarea
-                        type="text"
-                        placeholder="Short Description"
-                        id="shortDescription"
-                        name="shortDescription"
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.shortDescription}
-                        className="input textarea input-bordered w-full"
-                    />
-                    {formik.touched.shortDescription && formik.errors.shortDescription ? (
-                        <div>{formik.errors.shortDescription}</div>
-                    ) : null}
-                </div>
+
                 {/* Long Description Input */}
                 <div className="form-control w-full my-6">
                     <label className='label' htmlFor="longDescription"><span className="label-text">Long Description*</span></label>
@@ -199,31 +186,29 @@ const UpdateAssignment = () => {
                         value={formik.values.longDescription}
                         className="input textarea input-bordered w-full"
                     />
-                    {formik.touched.longDescription && formik.errors.longDescription ? (
+                    {formik.touched.longDescription && formik.errors.longDescription && (
                         <div>{formik.errors.longDescription}</div>
-                    ) : null}
+                    )}
                 </div>
 
                 {/* Image Upload Input */}
                 <div className="form-control w-full my-6">
-                    <label className='label' htmlFor="petImage"><span className="label-text">Pet Image*</span></label>
+                    <label className='label' htmlFor="assignmentImage"><span className="label-text">Assignment Image*</span></label>
                     <input
                         type="file"
-                        id="petImage"
-                        name="petImage"
-                        onChange={(event) => formik.setFieldValue('petImage', event.currentTarget.files[0])}
+                        id="assignmentImage"
+                        name="assignmentImage"
+                        onChange={(event) => formik.setFieldValue('assignmentImage', event.currentTarget.files[0])}
                         onBlur={formik.handleBlur}
-                        className=" w-full file-input max-w-xs"
+                        className="w-full file-input max-w-xs"
                     />
-                    {formik.touched.petImage && formik.errors.petImage ? (
-                        <div>{formik.errors.petImage}</div>
-                    ) : null}
+                    {formik.touched.assignmentImage && formik.errors.assignmentImage && (
+                        <div>{formik.errors.assignmentImage}</div>
+                    )}
                 </div>
 
-
-
                 {/* Submit Button */}
-                <button className='btn bg-[#f04336] hover:bg-[#f04336] w-full text-white' type="submit">Add Pet</button>
+                <button className='btn bg-[#f04336] hover:bg-[#f04336] w-full text-white' type="submit">Update Assignment</button>
             </form>
         </div>
     );

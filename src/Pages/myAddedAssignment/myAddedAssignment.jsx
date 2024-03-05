@@ -45,22 +45,7 @@ const MyAddedAssignment = () => {
             }
         });
     }
-    // const handleUpdateAssignment = pet => {
-    //     axiosSecure.patch(`/assignment/user/${pet._id}`)
-    //         .then(res => {
-    //             console.log(res.data)
-    //             if (res.data.modifiedCount > 0) {
-    //                 refetch();
-    //                 Swal.fire({
-    //                     position: "top-end",
-    //                     icon: "success",
-    //                     title: `${pet.petName} is an Adopt Now!`,
-    //                     showConfirmButton: false,
-    //                     timer: 1500
-    //                 });
-    //             }
-    //         })
-    // }
+ 
 
     const offset = (currentPage - 1) * assignmentsPerPage;
     const currentAssignments = assignmentAl.slice(offset, offset + assignmentsPerPage);
@@ -116,14 +101,7 @@ const MyAddedAssignment = () => {
                                         <FaTrashAlt className="text-red-600"></FaTrashAlt>
                                     </button>
                                 </td>
-                                {/* <td className="border px-4 py-2">
-                                    <button
-                                        onClick={() => handleUpdateAssignment(assignment)}
-                                        className="btn btn-ghost btn-lg"
-                                    >
-                                        <FaPaw className="text-red-600"></FaPaw>
-                                    </button>
-                                </td> */}
+                            
                             </tr>
                         ))}
                     </tbody>
