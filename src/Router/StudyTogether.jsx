@@ -8,6 +8,8 @@ import Dashboard from "../Layout/Dashboard";
 import DashHome from "../Pages/Dashboard/Dashboard/Home/DashHome";
 import CreateAssignment from "../Pages/CreateAssignment/CreateAssignment";
 import MyAddedAssignment from "../Pages/myAddedAssignment/myAddedAssignment";
+import PrivateRoute from "./PrivateRouter";
+import UpdateAssignment from "../Pages/UpdatedAssignment/UpdatedAssignment";
 
 
 export const router = createBrowserRouter([
@@ -34,21 +36,26 @@ export const router = createBrowserRouter([
     },{
 
         path:'dashboard',
-        element:<Dashboard></Dashboard>,
+        element:<PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
         errorElement:<Error></Error>,
         children:[
             {
                 path:'dashHome',
-                element:<DashHome></DashHome>
+                element:<PrivateRoute><DashHome></DashHome></PrivateRoute>
             },{
 
                 path:'/dashboard/createAssignment',
-                element:<CreateAssignment></CreateAssignment>
+                element:<PrivateRoute><CreateAssignment></CreateAssignment></PrivateRoute>
 
             },{
 
                 path:'/dashboard/myAddedAssignment',
-                element: <MyAddedAssignment></MyAddedAssignment>
+                element: <PrivateRoute><MyAddedAssignment></MyAddedAssignment></PrivateRoute>
+
+            },{
+
+                path:'/dashboard/UpdateItem',
+                element:<PrivateRoute><UpdateAssignment></UpdateAssignment></PrivateRoute>
 
             }
         ]
