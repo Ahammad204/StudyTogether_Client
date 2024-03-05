@@ -7,12 +7,13 @@ import { useContext } from 'react';
 import Swal from 'sweetalert2';
 import { AuthContext } from '../../Provider/AuthProvider';
 import SocialLogin from '../../Components/SocialLogin/SocialLogin';
+import useAxiosPublic from '../../Hooks/useAxiosPublic';
 
 
 
 const SignUp = () => {
 
-
+    const axiosPublic = useAxiosPublic();
 
     const {
         register,
@@ -21,7 +22,7 @@ const SignUp = () => {
         formState: { errors },
     } = useForm();
 
-    const {createUser, updateUserProfile} = useContext(AuthContext);
+    const { createUser, updateUserProfile } = useContext(AuthContext);
 
     const navigate = useNavigate();
 
@@ -33,35 +34,63 @@ const SignUp = () => {
         const name = data.name;
         const photo = data.photoURL
 
-        createUser(email,password)
-        .then(result => {
+        createUser(email, password)
+            .then(result => {
 
-            const loggedUser = result.user;
-            console.log(loggedUser);
-            updateUserProfile(name,photo)
-            .then(() => {
+                const loggedUser = result.user;
+                console.log(loggedUser);
+                updateUserProfile(name, photo)
+                    .then(() => {
+                        // create user entry in the database
+                        const userInfo = {
+                            name: data.name,
+                            email: data.email,
+                            photo: data.photoURL,
+                            role: "user",
+                            status: "active"
 
-                console.log('User Profile Updated')
-                reset();
+                        }
+                        axiosPublic.post('/users', userInfo)
+                            .then(res => {
+                                if (res.data.insertedId) {
+                                    console.log('user added to the database')
+                                    reset();
+                                    Swal.fire({
+                                        position: 'top-end',
+                                        icon: 'success',
+                                        title: 'Account created successfully.',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
+                                    navigate('/login');
+                                }
+                            })
+                            .catch(error => {
+
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: 'Check Your Email And Password',
+                                });
+
+                                console.log(error)
+
+                            })
+
+
+                    })
+
+            }).catch(error => {
+
                 Swal.fire({
-                    position: "top-end",
-                    icon: "success",
-                    title: "Profile Has been Created",
-                    showConfirmButton: false,
-                    timer: 1500
-                  });
-
-                  navigate('/')
-
-            })
-
-            .catch(error => {
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Look Like Email Already Exist',
+                });
 
                 console.log(error)
 
             })
-
-        })
 
     }
 
@@ -73,7 +102,7 @@ const SignUp = () => {
 
             <div className="hero min-h-screen "  >
                 <div className="hero-content flex-col lg:flex-row-reverse">
-                    <div  className="text-center lg:text-left md:ml-52">
+                    <div className="text-center lg:text-left md:ml-52">
                         <img className='w-80 h-72' src={signUpImg} alt="" />
                     </div>
                     <div className="card shrink-0 w-full max-w-sm shadow-2xl ">
