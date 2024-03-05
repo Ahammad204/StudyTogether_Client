@@ -40,35 +40,35 @@ const DetailsPage = () => {
         fetchData();
     }, [email, id]);
 
-    const handleAdoptPet = async (e) => {
+    const handleSubmitAssignment = async (e) => {
 
         e.preventDefault();
         const form = e.target;
 
-        const newAdopt = {
+        const newAssignment = {
 
             names: form.names?.value,
             email: form.email?.value,
-            phone: form.phoneNumber?.value,
-            address: form.address?.value,
+            AssignmentSubmit: form.AssignmentSubmit?.value,
+            shortNote: form.shortNote?.value,
             status: 'pending',
-            petsId: id,
+            assignmentId: id,
             ownerEmail: ownerEmail
         }
 
-        console.log(newAdopt);
+        console.log(newAssignment);
 
 
         // 
-        const petRes = await axiosSecure.post('/adopt', newAdopt);
-        console.log(petRes.data)
-        if (petRes.data.insertedId) {
+        const assignmentRes = await axiosSecure.post('/submitAssignment', newAssignment);
+        console.log(assignmentRes.data)
+        if (assignmentRes.data.insertedId) {
             // show success popup
 
             Swal.fire({
                 position: "top-end",
                 icon: "success",
-                title: `Adopt is added to the Team.`,
+                title: `Assignment is submitted.`,
                 showConfirmButton: false,
                 timer: 1500
             });
@@ -109,7 +109,7 @@ const DetailsPage = () => {
                                 }}
 
                             >
-                                Adopt
+                                Take Assignment
                             </button>
 
 
@@ -122,7 +122,7 @@ const DetailsPage = () => {
                                         {/* if there is a button in form, it will close the modal */}
                                         <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                                     </form>
-                                    <form onSubmit={handleAdoptPet} className="mt-4">
+                                    <form onSubmit={handleSubmitAssignment} className="mt-4">
 
 
                                         {/* Name and Email row */}
@@ -147,24 +147,24 @@ const DetailsPage = () => {
                                             </div>
                                         </div>
 
-                                        {/* Name and Email row */}
+                                        {/* Assignment Details and Short Note row */}
                                         <div className="md:flex mb-8">
                                             <div className="form-control md:w-1/2">
                                                 <label className="label">
-                                                    <span className="label-text">Phone Number</span>
+                                                    <span className="label-text">Assignment Submit Area</span>
                                                 </label>
                                                 <label className="input-group">
 
-                                                    <input type="text" required name="phoneNumber" placeholder="Enter Your Phone Number" className="input input-bordered w-full" />
+                                                    <textarea type="text" required name="AssignmentSubmit" placeholder="Enter Your Phone Number" className="input input-bordered w-full" />
                                                 </label>
                                             </div>
                                             <div className="form-control md:w-1/2 ml-4">
                                                 <label className="label">
-                                                    <span className="label-text">Address</span>
+                                                    <span className="label-text">Short Note</span>
                                                 </label>
                                                 <label className="input-group">
 
-                                                    <input type="text" required name="address" placeholder="Enter Your Address" className="input input-bordered w-full" />
+                                                    <textarea type="text" required name="shortNote" placeholder="Add Some Note" className="input input-bordered w-full" />
                                                 </label>
                                             </div>
                                         </div>
@@ -172,7 +172,7 @@ const DetailsPage = () => {
 
 
 
-                                        <input className="btn btn-block text-white bg-[#E59285] hover:bg-[#E59285] " type="submit" value="Adopt" />
+                                        <input className="btn btn-block text-white bg-blue-500 hover:bg-blue-400 " type="submit" value="Submit Assignment" />
                                     </form>
                                 </div>
                             </dialog>

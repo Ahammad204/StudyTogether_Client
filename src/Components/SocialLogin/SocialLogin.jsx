@@ -3,6 +3,7 @@ import { FaGithub, FaGoogle } from "react-icons/fa6";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import toast from "react-hot-toast";
 
 
 const SocialLogin = () => {
@@ -29,10 +30,18 @@ const SocialLogin = () => {
                     .then(res => {
                         console.log(res.data);
                         navigate(location?.state ? location.state : '/');
+                        toast.success('Successfully Log In!')
                     })
 
 
             })
+            .catch(error => {
+
+                console.log(error)
+                toast.error("Something Went Wrong")
+
+            })
+            
 
 
     }
