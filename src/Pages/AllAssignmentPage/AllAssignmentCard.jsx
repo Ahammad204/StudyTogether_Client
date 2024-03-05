@@ -17,8 +17,8 @@ const AllAssignmentCard = ({   assignmentItem }) => {
             <figure><img className="w-full h-96" src={assignmentImage} alt={assignmentTitle} /></figure>
             <div className="card-body">
                 <h2 className="card-title font-extrabold text-3xl">{assignmentTitle}</h2>
-                <p className="text-base font-semibold mt-4">Difficulty: {difficulty} </p>
-                <p className="text-base font-semibold mt-4">Total Marks: {assignmentNumber} </p>
+                <p className="text-base uppercase font-semibold mt-4">Difficulty: {difficulty} </p>
+                <p className="text-base font-semibold uppercase mt-4">Total Marks: {assignmentNumber} </p>
                 {/* <p className="text-lg font-semibold text-[#f04336]">Last Date: {assignmentLastDate}</p> */}
                
 

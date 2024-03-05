@@ -1,36 +1,42 @@
 import { useContext } from "react";
 import { FaGithub, FaGoogle } from "react-icons/fa6";
-
 import { useLocation, useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
 import { AuthContext } from "../../Provider/AuthProvider";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
+
 
 const SocialLogin = () => {
-    
+
     // eslint-disable-next-line no-unused-vars
-    const {user, googleLogin,githubLogin} = useContext(AuthContext)
+    const { user, googleLogin, githubLogin } = useContext(AuthContext)
     const location = useLocation();
     const navigate = useNavigate();
+    const axiosPublic = useAxiosPublic()
 
     const handleSocialLogin = (social) => {
 
         social()
-        .then(result => {
+            .then(async (result) => {
+                console.log(result.user);
+                const userInfo = {
+                    email: result.user?.email,
+                    name: result.user?.displayName,
+                    photo: result.user?.photoURL,
+                    role: "user",
+                    status: "active"
+                }
+                axiosPublic.post('/users', userInfo)
+                    .then(res => {
+                        console.log(res.data);
+                        navigate(location?.state ? location.state : '/');
+                    })
 
-            console.log(result);
 
-            toast.success('User logged in successfully');
+            })
 
-            navigate(location?.state ? location.state : '/');
-
-        })
-        .catch(error => {
-            toast.error("Oops Something Wrong")
-            console.log(error)
-        })
 
     }
-    
+
     return (
         <div>
             <>

@@ -8,8 +8,8 @@ const Dashboard = () => {
     const { user } = useAuth();
 
     return (
-        <div className="flex">
-            <div className="w-64 min-h-screen bg-blue-400 text-white">
+        <div className="md:flex">
+            <div className="md:w-64 min-h-screen bg-blue-400 text-white">
 
                 <ul className="menu p-4">
 
