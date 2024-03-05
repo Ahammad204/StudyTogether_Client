@@ -13,7 +13,7 @@ const Dashboard = () => {
 
                 <ul className="menu p-4">
 
-                    <li> <FaHouse></FaHouse> <NavLink to='/dashboard/dashHome'><FaHouse></FaHouse> Home</NavLink></li>
+                    <li> <FaHouse></FaHouse> <NavLink to='/'><FaHouse></FaHouse> Home</NavLink></li>
 
                     <li> <FaHouse></FaHouse> <NavLink to='/dashboard/createAssignment'><FaBook></FaBook> Create Assignment</NavLink></li>
 

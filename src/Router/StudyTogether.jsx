@@ -10,6 +10,7 @@ import CreateAssignment from "../Pages/CreateAssignment/CreateAssignment";
 import MyAddedAssignment from "../Pages/myAddedAssignment/myAddedAssignment";
 import PrivateRoute from "./PrivateRouter";
 import UpdateAssignment from "../Pages/UpdatedAssignment/UpdatedAssignment";
+import AllAssignment from "../Pages/AllAssignmentPage/AllAssignment";
 
 
 export const router = createBrowserRouter([
@@ -30,6 +31,11 @@ export const router = createBrowserRouter([
 
                 path:'signUp',
                 element:<SignUp></SignUp>
+
+            },{
+
+                path:'allAssignment',
+                element:<AllAssignment></AllAssignment>
 
             }
         ]
