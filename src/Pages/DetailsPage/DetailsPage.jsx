@@ -62,7 +62,7 @@ const DetailsPage = () => {
         // 
         const assignmentRes = await axiosSecure.post('/submitAssignment', newAssignment);
         console.log(assignmentRes.data)
-        if (assignmentRes.data.insertedId) {
+        if (assignmentRes?.data?.insertedId) {
             // show success popup
 
             Swal.fire({
@@ -89,7 +89,7 @@ const DetailsPage = () => {
                         {/* <p className="mb-5 text-lg  font-medium">{longDescription}</p> */}
 
                         <div className="grid md:grid-cols-3 grid-cols-1 gap-4 mb-4">
-                            <button className="btn bg-transparent text-white hover:bg-blue-400  border-2 border-blue-400 hover:border-none font-outfit">Difficulty {difficulty}</button>
+                            <button className="btn uppercase bg-transparent text-white hover:bg-blue-400  border-2 border-blue-400 hover:border-none font-outfit">Difficulty {difficulty}</button>
 
                             <button className="btn h-auto bg-transparent text-white hover:bg-blue-400  border-2 border-blue-400  hover:border-none font-outfit"> Mark: {assignmentNumber}</button>
 
@@ -155,7 +155,7 @@ const DetailsPage = () => {
                                                 </label>
                                                 <label className="input-group">
 
-                                                    <textarea type="text" required name="AssignmentSubmit" placeholder="Enter Your Phone Number" className="input input-bordered w-full" />
+                                                    <textarea type="text" required name="AssignmentSubmit" placeholder="Submit Your Assignment " className="input input-bordered w-full" />
                                                 </label>
                                             </div>
                                             <div className="form-control md:w-1/2 ml-4">

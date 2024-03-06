@@ -12,6 +12,7 @@ import PrivateRoute from "./PrivateRouter";
 import UpdateAssignment from "../Pages/UpdatedAssignment/UpdatedAssignment";
 import AllAssignment from "../Pages/AllAssignmentPage/AllAssignment";
 import DetailsPage from "../Pages/DetailsPage/DetailsPage";
+import SubmittedAssignment from "../Pages/SubmittedAssignment/SubmittedAssignment";
 
 
 export const router = createBrowserRouter([
@@ -69,6 +70,11 @@ export const router = createBrowserRouter([
                 path:'/dashboard/UpdateItem/:id',
                 element:<PrivateRoute><UpdateAssignment></UpdateAssignment></PrivateRoute>,
                 loader: ({ params }) => fetch(`http://localhost:5000/assignment/${params.id}`)
+
+            },{
+
+                path:'/dashboard/submittedAssignment',
+                element:<PrivateRoute><SubmittedAssignment></SubmittedAssignment></PrivateRoute>
 
             }
         ]

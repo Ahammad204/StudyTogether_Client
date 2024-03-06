@@ -19,6 +19,8 @@ const Dashboard = () => {
 
                     <li> <FaHouse></FaHouse> <NavLink to='/dashboard/myAddedAssignment'><FaBook></FaBook> My Added Assignment</NavLink></li>
 
+                    <li> <FaHouse></FaHouse> <NavLink to='/dashboard/submittedAssignment'><FaBook></FaBook> Submitted Assignment</NavLink></li>
+
 
                 </ul>
 
