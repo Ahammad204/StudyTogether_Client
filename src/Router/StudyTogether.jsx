@@ -13,6 +13,7 @@ import UpdateAssignment from "../Pages/UpdatedAssignment/UpdatedAssignment";
 import AllAssignment from "../Pages/AllAssignmentPage/AllAssignment";
 import DetailsPage from "../Pages/DetailsPage/DetailsPage";
 import SubmittedAssignment from "../Pages/SubmittedAssignment/SubmittedAssignment";
+import MarkAssignment from "../Pages/MarkAssignment/MarkAssignment";
 
 
 export const router = createBrowserRouter([
@@ -75,6 +76,11 @@ export const router = createBrowserRouter([
 
                 path:'/dashboard/submittedAssignment',
                 element:<PrivateRoute><SubmittedAssignment></SubmittedAssignment></PrivateRoute>
+
+            },{
+
+                path:'/dashboard/markAssignment',
+                element:<PrivateRoute><MarkAssignment></MarkAssignment></PrivateRoute>
 
             }
         ]

@@ -21,6 +21,8 @@ const Dashboard = () => {
 
                     <li> <FaHouse></FaHouse> <NavLink to='/dashboard/submittedAssignment'><FaBook></FaBook> Submitted Assignment</NavLink></li>
 
+                    <li> <FaHouse></FaHouse> <NavLink to='/dashboard/markAssignment'><FaBook></FaBook> Mark Assignment</NavLink></li>
+
 
                 </ul>
 
