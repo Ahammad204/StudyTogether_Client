@@ -16,12 +16,14 @@ const DetailsPage = () => {
     const axiosSecure = useAxiosSecure();
     const [isLoading, setIsLoading] = useState(true);
 
-    const { _id, assignmentTitle, assignmentNumber, longDescription, assignmentImage, difficulty, email: ownerEmail } = assignmentDetails || {}
+    const { _id, assignmentTitle, assignmentNumber, longDescription, assignmentImage, difficulty, ownerEmail } = assignmentDetails || {}
+
+ 
 
     const { user } = useAuth();
 
-    const email = user.email;
-    const names = user.displayName;
+    const email = user?.email;
+    const names = user?.displayName;
     const petId = _id;
     console.log(assignmentDetails)
 
@@ -40,6 +42,8 @@ const DetailsPage = () => {
         fetchData();
     }, [email, id]);
 
+  
+
     const handleSubmitAssignment = async (e) => {
 
         e.preventDefault();
@@ -53,7 +57,11 @@ const DetailsPage = () => {
             shortNote: form.shortNote?.value,
             status: 'pending',
             assignmentId: id,
-            ownerEmail: ownerEmail
+            ownerEmail: ownerEmail,
+            assignmentImage: assignmentImage,
+            assignmentTitle: assignmentTitle,
+            difficulty:difficulty,
+            marks: 0
         }
 
         console.log(newAssignment);
