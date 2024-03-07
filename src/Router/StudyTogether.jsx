@@ -70,7 +70,7 @@ export const router = createBrowserRouter([
 
                 path:'/dashboard/UpdateItem/:id',
                 element:<PrivateRoute><UpdateAssignment></UpdateAssignment></PrivateRoute>,
-                loader: ({ params }) => fetch(`http://localhost:5000/assignment/${params.id}`)
+                loader: ({ params }) => fetch(`https://study-together-server.vercel.app/assignment/${params.id}`)
 
             },{
 

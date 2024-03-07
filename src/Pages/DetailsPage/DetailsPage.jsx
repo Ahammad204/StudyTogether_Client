@@ -30,7 +30,7 @@ const DetailsPage = () => {
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
-            const response = await fetch(`http://localhost:5000/allAssignment`);
+            const response = await fetch(`https://study-together-server.vercel.app/allAssignment`);
             const data = await response.json();
             const filteredProducts = data.filter((item) => item._id === id);
             setAssignmentDetails(filteredProducts[0]);

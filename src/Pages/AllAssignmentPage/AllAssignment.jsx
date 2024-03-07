@@ -12,7 +12,7 @@ const AllAssignment = () => {
 
     // Fetch Assignment data
     useEffect(() => {
-        fetch('http://localhost:5000/allAssignment')
+        fetch('https://study-together-server.vercel.app/allAssignment')
             .then(res => res.json())
             .then(data => {
                 setAssignment(data)
@@ -27,7 +27,7 @@ const AllAssignment = () => {
         if (event.key === "Enter") {
             setIsLoading(true);
             const response = await fetch(
-                "http://localhost:5000/allAssignment"
+                "https://study-together-server.vercel.app/allAssignment"
             );
             const data = await response.json();
             const filteredProducts = data.filter(
@@ -44,7 +44,7 @@ const AllAssignment = () => {
         const fetchData = async () => {
             setIsLoading(true);
             const response = await fetch(
-                "http://localhost:5000/allAssignment"
+                "https://study-together-server.vercel.app//allAssignment"
             );
             const data = await response.json();
 
