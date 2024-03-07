@@ -15,7 +15,7 @@ const MarkAssignment = () => {
     const axiosSecure = useAxiosSecure();
     const [currentPage, setCurrentPage] = useState(1);
     const MarkPerPage = 10;
-
+    const [showPending, setPending] = useState(false);
 
     const handlePageChange = (event, page) => {
         setCurrentPage(page);
@@ -79,8 +79,12 @@ const MarkAssignment = () => {
 
 
 
+    const filteredAssignment = showPending
+        ? markAssignment.filter((assignment) => assignment?.status === "pending")
+        : markAssignment;
+
     const offset = (currentPage - 1) * MarkPerPage;
-    const currentAssinments = markAssignment.slice(offset, offset + MarkPerPage);
+    const currentAssinments = filteredAssignment.slice(offset, offset + MarkPerPage);
 
 
 
@@ -89,7 +93,15 @@ const MarkAssignment = () => {
         <div>
             <div className="flex justify-evenly my-4">
 
-                <h2 className="text-3xl">Total Assignment: {markAssignment?.length}</h2>
+                <h2 className="text-3xl">Total Submit: {markAssignment?.length}</h2>
+            </div>
+            <div className="text-center flex justify-center items-center ">
+                <button
+                    onClick={() => setPending(!showPending)}
+                    className="btn  bg-blue-400 hover:bg-blue-400 text-white"
+                >
+                    {showPending ? "Show All Assignment" : "Show Pending Assignment"}
+                </button>
             </div>
             <div className="overflow-x-auto">
                 <table className="table table-zebra w-full">
