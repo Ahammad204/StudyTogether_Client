@@ -151,6 +151,28 @@ const MarkAssignment = () => {
 
                                                 <input type="hidden" name="markId" value={mark?._id} />
 
+                                                {/* Name and Email row */}
+                                                <div className="md:flex mb-8">
+                                                    <div className="form-control md:w-1/2">
+                                                        <label className="label">
+                                                            <span className="label-text">Examinee Name</span>
+                                                        </label>
+                                                        <label className="input-group">
+
+                                                            <input type="text" disabled defaultValue={mark?.names} required name="names" placeholder="Enter Your Full Name" className="input input-bordered w-full" />
+                                                        </label>
+                                                    </div>
+                                                    <div className="form-control md:w-1/2 ml-4">
+                                                        <label className="label">
+                                                            <span className="label-text">Examinee Email</span>
+                                                        </label>
+                                                        <label className="input-group">
+
+                                                            <input type="email" disabled defaultValue={mark?.email} required name="email" placeholder="Enter Your Email" className="input input-bordered w-full" />
+                                                        </label>
+                                                    </div>
+                                                </div>
+
                                                 {/* Assignment and note row */}
                                                 <div className="md:flex mb-8">
                                                     <div className="form-control md:w-1/2">
@@ -159,7 +181,7 @@ const MarkAssignment = () => {
                                                         </label>
                                                         <label className="input-group">
 
-                                                            <textarea type="text" disabled defaultValue={mark?.AssignmentSubmit} required name="names" placeholder="Enter Your Full Name" className="input input-bordered w-full" />
+                                                            <textarea type="text" disabled defaultValue={mark?.AssignmentSubmit} required name="assignmentSubmit" placeholder="Assignment Submit" className="input input-bordered w-full" />
                                                         </label>
                                                     </div>
                                                     <div className="form-control md:w-1/2 ml-4">
@@ -168,7 +190,7 @@ const MarkAssignment = () => {
                                                         </label>
                                                         <label className="input-group">
 
-                                                            <textarea type="email" disabled defaultValue={mark?.shortNote} required name="email" placeholder="Enter Your Email" className="input input-bordered w-full" />
+                                                            <textarea type="text" disabled defaultValue={mark?.shortNote} required name="shotNote" placeholder="Short Note" className="input input-bordered w-full" />
                                                         </label>
                                                     </div>
                                                 </div>
