@@ -61,7 +61,8 @@ const DetailsPage = () => {
             assignmentImage: assignmentImage,
             assignmentTitle: assignmentTitle,
             difficulty:difficulty,
-            marks: 0
+            feedback:'none',
+            marks: parseFloat(0)
         }
 
         console.log(newAssignment);
