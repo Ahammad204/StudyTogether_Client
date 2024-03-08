@@ -96,8 +96,8 @@ const SignUp = () => {
 
     return (
         <>
-            <Helmet>
-                <title>Bistro Boss || Sign Up</title>
+        <Helmet>
+                <title>Study Together || signUp</title>
             </Helmet>
 
             <div className="hero min-h-screen "  >
