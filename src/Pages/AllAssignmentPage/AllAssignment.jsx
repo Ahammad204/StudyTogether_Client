@@ -44,7 +44,7 @@ const AllAssignment = () => {
         const fetchData = async () => {
             setIsLoading(true);
             const response = await fetch(
-                "https://study-together-server.vercel.app//allAssignment"
+                "https://study-together-server.vercel.app/allAssignment"
             );
             const data = await response.json();
 
