@@ -1,9 +1,18 @@
 import { FaClipboardCheck, FaFlag } from "react-icons/fa";
 import { FaPeopleGroup } from "react-icons/fa6";
 
+import AOS from 'aos';
+import 'aos/dist/aos.css'; 
+import { useEffect } from "react";
+
 const Featured = () => {
+
+    useEffect(() => {
+        AOS.init();
+    }, []);
+
     return (
-        <div className="mt-20">
+        <div data-aos="fade-down" className="mt-20">
             <h1 className="font-teko font-extrabold text-center text-7xl mb-3">Feature</h1> <hr />
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
                 <div className="card  bg-base-100 shadow-xl">

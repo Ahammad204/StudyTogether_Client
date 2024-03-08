@@ -1,8 +1,17 @@
 import faqImg from '../../assets/Banner/faq.jpg'
+import AOS from 'aos';
+import 'aos/dist/aos.css'; 
+import { useEffect } from 'react';
+
 
 const Faq = () => {
+
+    useEffect(() => {
+        AOS.init();
+    }, []);
+
     return (
-        <div>
+        <div data-aos="fade-up">
             <h1 className="font-teko font-extrabold text-center text-7xl mb-3">FAQ</h1> <hr />
             <div className="md:flex mt-4 gap-20 ">
                 <div >
