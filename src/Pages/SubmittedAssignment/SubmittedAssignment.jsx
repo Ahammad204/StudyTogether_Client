@@ -97,7 +97,7 @@ const MyAddedAssignment = () => {
                                     </button>
                                 </td>
 
-                                <td>
+                                <td className="border text-center px-4 py-2">
                                     <button
                                         onClick={() => {
                                             document.getElementById(`my_modal_${assignment._id}`).showModal();
@@ -167,7 +167,7 @@ const MyAddedAssignment = () => {
                                                 <div className="md:flex mb-8">
                                                     <div className="form-control md:w-1/2">
                                                         <label className="label">
-                                                            <span className="label-text">Assignment</span>
+                                                            <span className="label-text">Feedback</span>
                                                         </label>
                                                         <label className="input-group">
 
@@ -176,7 +176,7 @@ const MyAddedAssignment = () => {
                                                     </div>
                                                     <div className="form-control md:w-1/2 ml-4">
                                                         <label className="label">
-                                                            <span className="label-text">Note</span>
+                                                            <span className="label-text">Marks</span>
                                                         </label>
                                                         <label className="input-group">
 

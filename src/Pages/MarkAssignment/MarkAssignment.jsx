@@ -90,7 +90,7 @@ const MarkAssignment = () => {
 
 
     return (
-        <div>
+        <div className="container mx-auto">
             <div className="flex justify-evenly my-4">
 
                 <h2 className="text-3xl">Total Submit: {markAssignment?.length}</h2>
@@ -108,12 +108,12 @@ const MarkAssignment = () => {
                     {/* head */}
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Image</th>
-                            <th>Title</th>
-                            <th>Marks</th>
-                            <th>Assignment Status</th>
-                            <th>Give Marks</th>
+                            <th className="px-4 py-2">#</th>
+                            <th className="px-4 py-2">Image</th>
+                            <th className="px-4 py-2">Title</th>
+                            <th className="px-4 py-2">Marks</th>
+                            <th className="px-4 py-2">Assignment Status</th>
+                            <th className="px-4 py-2">Give Marks</th>
 
                         </tr>
                     </thead>
@@ -121,7 +121,7 @@ const MarkAssignment = () => {
                         {
                             currentAssinments?.map((mark, index) => <tr key={mark._id}>
                                 <th>{index + 1}</th>
-                                <td>
+                                <td className="border text-center px-4 py-2">
                                     <div className="flex items-center gap-3">
                                         <div className="avatar">
                                             <div className="mask mask-squircle w-12 h-12">
@@ -130,11 +130,11 @@ const MarkAssignment = () => {
                                         </div>
                                     </div>
                                 </td>
-                                <td>{mark?.assignmentTitle}</td>
-                                <td className="text-center">{mark?.marks}</td>
+                                <td className="border text-center px-4 py-2">{mark?.assignmentTitle}</td>
+                                <td className="border text-center px-4 py-2">{mark?.marks}</td>
 
 
-                                <td>
+                                <td className="border text-center px-4 py-2">
                                     <button
                                         onClick={() => handleUpdateAssignmentStatus(mark)}
                                         className="btn btn-ghost btn-lg">
@@ -142,7 +142,7 @@ const MarkAssignment = () => {
                                     </button>
                                 </td>
 
-                                <td>
+                                <td className="border text-center px-4 py-2">
                                     <button
                                         onClick={() => {
                                             document.getElementById(`my_modal_${mark._id}`).showModal();
